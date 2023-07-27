@@ -1,10 +1,10 @@
 <template>
   <div class="about">
     <transition
-      appear
       @beforeEnter="beforeEnter"
       @enter="enter"
       @afterEnter="afterEnter"
+      appear
     >
       <h1>About</h1>
     </transition>
@@ -29,7 +29,7 @@ export default {
     const enter = (el, done) => {
       console.log('starting to enter - make transition')
       gsap.to(el, {
-        duration: 3,
+        duration: 1,
         y: 0,
         opacity: 1,
         ease: 'bounce.out',

@@ -1,17 +1,23 @@
 <template>
   <div class="contact">
     <h1>Contact</h1>
-    <ul>
-      <li v-for="icon in icons" :key="icon.name">
+    <transition-group
+      tag="ul"
+      @beforeEnter="beforeEnter"
+      @enter="enter"
+      appear
+    >
+      <li v-for="(icon, index) in icons" :key="icon.name" :data-index="index">
         <span class="material-icons">{{ icon.name }}</span>
         <div>{{ icon.text }}</div>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import gsap from 'gsap'
 
 export default {
   setup() {
@@ -22,7 +28,22 @@ export default {
       { name: 'local_fire_department', text: 'by smoke signal'},
     ])
 
-    return { icons }
+    const beforeEnter = (el) => {
+      el.style.opacity = 0;
+      el.style.transform = `translateY(100px)`
+    }
+
+    const enter = (el, done) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: el.dataset.index * 0.2,
+        onComplete: done,
+      })
+    }
+
+    return { icons, beforeEnter, enter }
   }
 }
 </script>
